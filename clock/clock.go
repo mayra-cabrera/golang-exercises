@@ -21,6 +21,7 @@ func (c Clock) String() string {
 	return d.Format("15:04")
 }
 
-func (Clock) Add(minutes int) Clock {
-	return Clock{0, 0}
+func (c Clock) Add(minutes int) Clock {
+	c.minute = (c.minute + minutes) % 1440
+	return c
 }
