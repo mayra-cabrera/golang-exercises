@@ -1,11 +1,7 @@
-// Clock stub file
-
 package clock
 
 import "time"
 
-// The value of testVersion here must match `targetTestVersion` in the file
-// clock_test.go.
 const testVersion = 4
 
 type Clock struct {
