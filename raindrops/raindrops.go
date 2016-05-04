@@ -28,18 +28,19 @@ func Convert(x int) string {
 
 func SearchPrimeNumbers(x int) []int {
 	primes := []int{}
-	for i := 2; i <= x; i++ {
-		counting := 0
-		for j := 2; j <= i; j++ {
-			if (i % j) == 0 {
-				counting += 1
-				if (i == j) && counting == 1 {
-					primes = append(primes, i)
-				}
-			}
-		}
+	p := 2
+	if x < 2 {
+		primes = append(primes, p)
+	} else {
+		for p <= x {
+			if x%p == 0 {
+				primes = append(primes, p)
 
+			}
+			p += 1
+		}
 	}
+
 	return primes
 }
 
