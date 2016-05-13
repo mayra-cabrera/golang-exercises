@@ -1,5 +1,10 @@
 package triangle
 
+import (
+	"math"
+	"sort"
+)
+
 const testVersion = 2
 
 // Code this function.
@@ -7,7 +12,7 @@ func KindFromSides(a, b, c float64) Kind {
 	sides := [3]float64{a, b, c}
 	unique_sides := removeDuplicated(sides)
 	var finalType Kind
-	if sides[0]+sides[1] >= sides[2] {
+	if (triangleEquality(sides)) && unique_sides[0] > 0.0 && !hasInfinity(sides) {
 		if len(unique_sides) == 1 {
 			finalType = Equ
 		}
@@ -21,6 +26,20 @@ func KindFromSides(a, b, c float64) Kind {
 	return finalType
 }
 
+func triangleEquality(sides [3]float64) bool {
+	return (sides[0]+sides[1] >= sides[2]) && (sides[1]+sides[2] >= sides[0]) && (sides[2]+sides[0] >= sides[1])
+}
+
+func hasInfinity(sides [3]float64) bool {
+	result := false
+	for i := 0; i < len(sides); i++ {
+		if math.IsInf(sides[i], +1) || math.IsInf(sides[i], -1) {
+			result = true
+		}
+	}
+	return result
+}
+
 // Notice it returns this type.  Pick something suitable.
 type Kind int
 
@@ -32,6 +51,7 @@ const (
 	Sca = 3 // scalene
 )
 
+// Removes duplicated elements from a float64 slice and sorts them
 func removeDuplicated(elements [3]float64) []float64 {
 	encountered := map[float64]bool{}
 
@@ -39,12 +59,10 @@ func removeDuplicated(elements [3]float64) []float64 {
 		encountered[elements[v]] = true
 	}
 
-	// Place all keys from the map into a slice.
 	result := []float64{}
 	for key, _ := range encountered {
 		result = append(result, key)
 	}
+	sort.Float64s(result)
 	return result
 }
-
-// Organize your code for readability.
